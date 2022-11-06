@@ -4,8 +4,8 @@ namespace CityInfo.Models;
 public class PointsOfInterestForUpdatingDto
 {
 
-    [Required(ErrorMessage = "ceff field is too long.")]
-    [MaxLength(50)]
+    [Required(ErrorMessage = "name field is required")]
+    [MaxLength(50,ErrorMessage = "ceff field is too long.")]
     public string Name { get; set; } = string.Empty;
 
     [MaxLength(200)]

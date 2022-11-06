@@ -1,6 +1,8 @@
 using CityInfo;
+using CityInfo.DbContexts;
 using CityInfo.Services;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -10,7 +12,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 
-  
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
@@ -28,9 +30,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 builder.Services.AddSingleton<CitiesDataStore>();
+builder.Services.AddDbContext<CityInfoContext>(
+    dbContextOptions => dbContextOptions.UseSqlite(
+        builder.Configuration["ConnectionStrings:CityInfoDBConnectionString"])); //registered with scoped lifetime (one per request)
+builder.Services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+
 // Transient services will be instantiated everytime they're injected into another object ; works best for lightweight,stateless services
 #if DEBUG //if we're in  a debug build
-builder.Services.AddTransient<IMailService,LocalMailService>();
+builder.Services.AddTransient<IMailService, LocalMailService>();
 #else
 builder.Services.AddTransient<IMailService,CloudMailService>();
 #endif

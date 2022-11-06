@@ -1,17 +1,19 @@
 ﻿namespace CityInfo.Models;
-    public class CityDto
-    {
+public class CityDto
+{
     public int Id { get; set; }
-    public string Name { get; set; }=String.Empty;
+    public string Name { get; set; } = String.Empty;
     public string? description { get; set; }
-    public int NumberOfPointsOfInterest {
+    public int NumberOfPointsOfInterest
+    {
         get
-        { return PointsOfInterest.Count();
+        {
+            return PointsOfInterest.Count();
         }
     }
 
-    public ICollection<PointOfInterestDto> PointsOfInterest { get; set; }=new List  <PointOfInterestDto>();
+    public ICollection<PointOfInterestDto> PointsOfInterest { get; set; } = new List<PointOfInterestDto>();
 
-    
+
 }
 
