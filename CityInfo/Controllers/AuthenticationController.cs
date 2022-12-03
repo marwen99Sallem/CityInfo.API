@@ -44,7 +44,7 @@ namespace CityInfo.Controllers
             //step1 : validate the username/password
             var user = ValidateUserCredentials(requestBody.UserName,requestBody.Password);
 
-            if (user == null)
+             if (user == null)
                 return Unauthorized();
 
 
